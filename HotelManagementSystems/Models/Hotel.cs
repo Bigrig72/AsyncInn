@@ -14,6 +14,6 @@ namespace HotelManagementSystems.Models
 
         // Navigational props
 
-        public Hotel_Room Room { get; set; }
+        public ICollection<Hotel_Room> Room { get; set; }
     }
 }

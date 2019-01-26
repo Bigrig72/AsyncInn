@@ -11,7 +11,6 @@ namespace HotelManagementSystems.Models
         public int RoomID { get; set; }
 
         // Navigation props
-
         public Amentities Amentities { get; set; }
         public Room Room { get; set; }
     }
