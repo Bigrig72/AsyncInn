@@ -32,6 +32,7 @@ namespace HotelManagementSystems
             );
             services.AddScoped<IHotelManager, HotelManagementService>();
             services.AddScoped<IRoomsManager, RoomManagementService>();
+            services.AddScoped<IAmenityManager, AmenityManagementService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

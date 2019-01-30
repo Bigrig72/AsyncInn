@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HotelManagementSystems.Data;
+using HotelManagementSystems.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HotelManagementSystems.Data;
-using HotelManagementSystems.Models;
 
 namespace HotelManagementSystems.Controllers
 {
@@ -26,13 +23,9 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Amentities/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+          
             var amentities = await _context.Amentities
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (amentities == null)
@@ -66,13 +59,8 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Amentities/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var amentities = await _context.Amentities.FindAsync(id);
             if (amentities == null)
             {
@@ -124,13 +112,8 @@ namespace HotelManagementSystems.Controllers
                 return NotFound();
             }
 
-            var amentities = await _context.Amentities
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (amentities == null)
-            {
-                return NotFound();
-            }
-
+            var amentities = await _context.Amentities.FirstOrDefaultAsync(m => m.ID == id);
+            if (amentities == null)return NotFound();            
             return View(amentities);
         }
 

@@ -27,16 +27,12 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Hotel_Room/Details/5
-        public async Task<IActionResult> Details(decimal? id)
+        public async Task<IActionResult> Details(decimal id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            
             var hotel_Room = await _context.HotelRooms
-                .Include(h => h.Hotel)
-                .FirstOrDefaultAsync(m => m.RoomID == id);
+                             .Include(h => h.Hotel)
+                         .FirstOrDefaultAsync(m => m.RoomID == id);
             if (hotel_Room == null)
             {
                 return NotFound();
@@ -70,13 +66,8 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Hotel_Room/Edit/5
-        public async Task<IActionResult> Edit(decimal? id)
+        public async Task<IActionResult> Edit(decimal id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var hotel_Room = await _context.HotelRooms.FindAsync(id);
             if (hotel_Room == null)
             {
@@ -123,13 +114,8 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Hotel_Room/Delete/5
-        public async Task<IActionResult> Delete(decimal? id)
+        public async Task<IActionResult> Delete(decimal id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var hotel_Room = await _context.HotelRooms
                 .Include(h => h.Hotel)
                 .FirstOrDefaultAsync(m => m.RoomID == id);
