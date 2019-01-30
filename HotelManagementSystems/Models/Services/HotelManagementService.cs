@@ -1,5 +1,6 @@
-﻿using HotelManagementSystems.Models.Interfaces;
-using System;
+﻿using HotelManagementSystems.Data;
+using HotelManagementSystems.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,29 +9,47 @@ namespace HotelManagementSystems.Models.Services
 {
     public class HotelManagementService : IHotelManager
     {
-        public void CreateHotel(Hotel hotel)
+        private HotelManagementDbContext _context { get; }
+
+        public HotelManagementService(HotelManagementDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+
+        public async Task CreateHotel(Hotel hotel)
+        {
+            _context.Hotels.Add(hotel);
+           await _context.SaveChangesAsync();
         }
 
         public void DeleteHotel(Hotel hotel)
         {
-            throw new NotImplementedException();
+            _context.Hotels.Remove(hotel);
+            _context.SaveChanges();
         }
 
         public void DeleteHotel(int id)
         {
-            throw new NotImplementedException();
+            Hotel hotel = _context.Hotels.FirstOrDefault(h => h.ID == id);
+            _context.Hotels.Remove(hotel);
+            _context.SaveChanges();
         }
 
-        public Hotel GetHotel(int id)
+        public async Task<Hotel> GetHotel(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Hotels.FirstOrDefaultAsync(hotel => hotel.ID == id);
         }
 
         public void UpdateHotel(Hotel hotel)
         {
-            throw new NotImplementedException();
+            _context.Hotels.Update(hotel);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Hotel> GetHotels()
+        {
+            return  _context.Hotels.ToList();
         }
     }
 }

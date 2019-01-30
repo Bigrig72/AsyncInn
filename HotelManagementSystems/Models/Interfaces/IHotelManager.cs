@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSystems.Models.Interfaces
 {
-    interface IHotelManager
+    public interface IHotelManager
     {
         // create a new hotel
-        void CreateHotel(Hotel hotel);
+        Task CreateHotel(Hotel hotel);
 
         // read details of a hotel
-        Hotel GetHotel(int id);
+        Task<Hotel> GetHotel(int id);
+
+        IEnumerable<Hotel> GetHotels();
 
         // update a hotel
         void UpdateHotel(Hotel hotel);

@@ -68,6 +68,7 @@ namespace HotelManagementSystems.Data
                            Address = "Someplace in NW DC"
 
                        });
+
          modelBuilder.Entity<Room>().HasData(
                new Room
                {
@@ -111,6 +112,7 @@ namespace HotelManagementSystems.Data
                    RoomAmentitiesID = 6,
                    Roomlayout = Layout.TwoBedroom
                });
+
             modelBuilder.Entity<Amentities>().HasData(
                new Amentities
                     {
