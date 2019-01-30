@@ -31,7 +31,6 @@ namespace HotelManagementSystems.Controllers
         {
 
             var hotel = await _context.GetHotel(id);
-            //.FirstOrDefaultAsync(m => m.ID == id);
             if (hotel == null)
             {
                 return NotFound();
