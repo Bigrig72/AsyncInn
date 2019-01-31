@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="~/StyleSheet.css" />
     <title>@ViewBag.Title</title>
 </head>
-<body>
+<body img src="../assets/background-asyncInn.jpg" class="img-fluid" alt="Responsive image">>
+    
     <header class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid">
             <a class="navbar-brand" href="#">Async Inn Navigation</a>
@@ -41,8 +42,10 @@
     <div>
         @RenderBody()
     </div>
-    <footer>
-        I am the footer
+    <footer class="mx-auto fixed-bottom container-fluid" , style="margin-left: auto;border-top: 1px solid #dee2e6;text-align: center;">
+        &copy; All rights reserved
+
     </footer>
+
 </body>
 </html>
