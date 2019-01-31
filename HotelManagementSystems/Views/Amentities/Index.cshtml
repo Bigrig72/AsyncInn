@@ -1,15 +1,21 @@
 ﻿@model IEnumerable<HotelManagementSystems.Models.Amentities>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Add Amenities!";
     Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<h1>Add and Filter Amenities!</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Amentities" asp-action="Index" method="get">
+    <p>
+        Amenity name: <input type="text" name="searchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>

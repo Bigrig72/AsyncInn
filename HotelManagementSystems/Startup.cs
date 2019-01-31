@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HotelManagementSystems.Data;
+﻿using HotelManagementSystems.Data;
 using HotelManagementSystems.Models.Interfaces;
 using HotelManagementSystems.Models.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +23,7 @@ namespace HotelManagementSystems
         {
             services.AddMvc();
             services.AddDbContext<HotelManagementDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-            );
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IHotelManager, HotelManagementService>();
             services.AddScoped<IRoomsManager, RoomManagementService>();
             services.AddScoped<IAmenityManager, AmenityManagementService>();
