@@ -21,10 +21,22 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Rooms
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View( _context.GetRooms());
+            var room = _context.GetRooms();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                room = room.Where(s => s.RoomAmentitiesID.Equals(Convert.ToInt32(searchString)));
+            }
+
+            return View(room);
         }
+        //[HttpPost]
+        //public string Index(string searchString, bool notUsed)
+        //{
+        //    return "From [HttpPost]Index: filter on " + searchString;
+        //}
 
         // GET: Rooms/Details/5
         public async Task<IActionResult> Details(int id)

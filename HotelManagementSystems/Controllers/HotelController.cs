@@ -19,7 +19,6 @@ namespace HotelManagementSystems.Controllers
         {
             _context = context;
         }
-
         // GET: Hotel
         public async Task<IActionResult> Index(string searchString)
         {
@@ -27,7 +26,7 @@ namespace HotelManagementSystems.Controllers
                         
             if (!String.IsNullOrEmpty(searchString))
             {
-                hotel = hotel.Where(s => s.Name.Equals(searchString));
+                hotel = hotel.Where(s => s.Name.Contains(searchString));
             }
             return View(hotel);
         }

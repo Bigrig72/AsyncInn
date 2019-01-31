@@ -17,25 +17,26 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Amentities
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Amentities.ToListAsync());
+            var amenity = from m in _context.Amentities
+                          select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                amenity = amenity.Where(s => s.Name.Contains(searchString));
+            }
+            return View(amenity);
         }
 
         // GET: Amentities/Details/5
         public async Task<IActionResult> Details(int id)
-        {
-          
+        {          
             var amentities = await _context.Amentities
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (amentities == null)
-            {
-                return NotFound();
-            }
-
-            return View(amentities);
+                            .FirstOrDefaultAsync(m => m.ID == id);
+                            if (amentities == null)return NotFound();                      
+                            return View(amentities);
         }
-
         // GET: Amentities/Create
         public IActionResult Create()
         {
