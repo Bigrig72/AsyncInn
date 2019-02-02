@@ -20,7 +20,7 @@ namespace HotelManagementSystems.Controllers
             _context = context;
         }
         // GET: Hotel
-        public async Task<IActionResult> Index(string searchString)
+        public IActionResult Index(string searchString)
         {
             var hotel = _context.GetHotels();
 

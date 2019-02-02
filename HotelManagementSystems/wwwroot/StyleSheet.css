@@ -1,4 +1,8 @@
-﻿
+﻿body {
+    background-image: url('../assets/background-asyncInn.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 .navbar-nav {
 display: table;
@@ -29,11 +33,7 @@ p {
     background-color: transparent;
     text-align: center;
 }
-body {
-    background-image: url('background-asyncInn.jpg');
-    background-repeat: no-repeat;
-    background-size:cover;
-}
+
 a {
     color: lightgrey;
     /* color: #007B5D; */
@@ -75,3 +75,4 @@ button, input {
     /* background-color: #f8f9fa!important; */
     background-color: transparent;
 }
+
