@@ -25,12 +25,16 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: RoomAmentities/Details/5
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? amenityid, int? roomid)
         {
+            if(amenityid == null || roomid == null)
+            {
+                return NotFound();
+            }
             var roomAmentities = await _context.RoomAmentities
                 .Include(r => r.Amentities)
                 .Include(r => r.Room)
-                .FirstOrDefaultAsync(m => m.AmentitiesID == id);
+                .FirstOrDefaultAsync(m => m.AmentitiesID == amenityid && m.RoomID == roomid);
             if (roomAmentities == null)
             {
                 return NotFound();
@@ -66,9 +70,13 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: RoomAmentities/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int amentitesID, int roomId)
         {
-            var roomAmentities = await _context.RoomAmentities.FindAsync(id);
+            var roomAmentities =  _context.RoomAmentities
+                .Include(c => c.Amentities)
+                .Include(c => c.Room)
+                .FirstOrDefault(s => s.AmentitiesID == amentitesID && s.Room.ID == roomId);
+          
             if (roomAmentities == null)
             {
                 return NotFound();
@@ -83,9 +91,9 @@ namespace HotelManagementSystems.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AmentitiesID,RoomID")] RoomAmentities roomAmentities)
+        public async Task<IActionResult> Edit(int amenityID, int roomID, [Bind("AmentitiesID,RoomID")] RoomAmentities roomAmentities)
         {
-            if (id != roomAmentities.AmentitiesID)
+            if (amenityID != roomAmentities.AmentitiesID || roomID != roomAmentities.RoomID)
             {
                 return NotFound();
             }
@@ -99,7 +107,7 @@ namespace HotelManagementSystems.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoomAmentitiesExists(roomAmentities.AmentitiesID))
+                    if (!RoomAmentitiesExists(roomAmentities.AmentitiesID, roomAmentities.RoomID))
                     {
                         return NotFound();
                     }
@@ -116,13 +124,17 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: RoomAmentities/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? amenityID, int? roomID)
         {
+            if(amenityID == null || roomID == null)
+            {
+                return NotFound();
+            }
             var roomAmentities = await _context.RoomAmentities
                 .Include(r => r.Amentities)
                 .Include(r => r.Room)
-                .FirstOrDefaultAsync(m => m.AmentitiesID == id);
-            if (roomAmentities == null)
+                .FirstOrDefaultAsync(m => m.AmentitiesID == amenityID && m.RoomID == roomID);
+            if(roomAmentities == null)
             {
                 return NotFound();
             }
@@ -133,17 +145,23 @@ namespace HotelManagementSystems.Controllers
         // POST: RoomAmentities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int amenityid, int roomID)
         {
-            var roomAmentities = await _context.RoomAmentities.FindAsync(id);
+            var roomAmentities = await _context.RoomAmentities
+                .Include(r => r.Amentities)
+                .Include(r => r.Room)
+                .FirstOrDefaultAsync(m => m.AmentitiesID == amenityid && m.RoomID == roomID);
             _context.RoomAmentities.Remove(roomAmentities);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
 
-        private bool RoomAmentitiesExists(int id)
+
+        }
+    
+
+        private bool RoomAmentitiesExists(int amenityID, int roomID)
         {
-            return _context.RoomAmentities.Any(e => e.AmentitiesID == id);
+            return _context.RoomAmentities.Any(e => e.AmentitiesID == amenityID && e.RoomID == roomID);
         }
     }
 }

@@ -106,12 +106,9 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Amentities/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+           
 
             var amentities = await _context.Amentities.FirstOrDefaultAsync(m => m.ID == id);
             if (amentities == null)return NotFound();            

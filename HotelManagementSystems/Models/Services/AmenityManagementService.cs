@@ -49,7 +49,7 @@ namespace HotelManagementSystems.Models.Services
 
         }
 
-        public void DeleteAmenity(int id)
+        public void  DeleteAmenity(int id)
         {
             Amentities amenity = _context.Amentities.FirstOrDefault(A => A.ID == id);
             _context.Amentities.Remove(amenity);

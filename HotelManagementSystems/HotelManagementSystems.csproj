@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\background-asyncInn.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="wwwroot\StyleSheet.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
