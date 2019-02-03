@@ -81,7 +81,7 @@ namespace HotelTesting.HotelTests
             }
         }
         /// <summary>
-        /// Testing to verify we can destroy a amenity
+        /// Testing to verify we can update an amenity
         /// </summary>
         [Fact]
         public async void CanUpdateAmenity()
@@ -103,6 +103,33 @@ namespace HotelTesting.HotelTests
                 Service.UpdateAmenity(amenity);
                 // Assert
                 Assert.Equal("JetTub", amenity.Name);
+            }
+        }
+        /// <summary>
+        /// Ensuring we can destroy an amenity
+        /// </summary>
+        [Fact]
+        public async void CanDeleteAmenity()
+        {
+            DbContextOptions<HotelManagementDbContext> options =
+                new DbContextOptionsBuilder<HotelManagementDbContext>
+                ().UseInMemoryDatabase("RoomAmenity").Options;
+
+            using (HotelManagementDbContext context = new HotelManagementDbContext(options))
+            {
+                // arrange
+                Amentities amenity = new Amentities();
+                amenity.ID = 1;
+                amenity.Name = "HotTub";
+                // Act
+                AmenityManagementService Service = new AmenityManagementService(context);
+                await Service.CreateAmenity(amenity);
+                Service.DeleteAmenity(amenity);
+
+                var delete = context.Amentities.FirstOrDefault(m => m.Name == amenity.Name);
+               
+                // Assert
+                Assert.Null(delete);
             }
 
         }
