@@ -134,7 +134,7 @@ namespace HotelTesting
         {
             DbContextOptions<HotelManagementDbContext> options =
                 new DbContextOptionsBuilder<HotelManagementDbContext>
-                ().UseInMemoryDatabase("DeleteHotel").Options;
+                ().UseInMemoryDatabase("UpdateHotel").Options;
 
             using (HotelManagementDbContext context = new HotelManagementDbContext(options))
             {
