@@ -21,6 +21,9 @@ namespace HotelTesting.HotelTests
             roomA.ID = 1;
             Assert.Equal(1, roomA.ID);
         }
+        /// <summary>
+        /// Testing we can set the room id to what we want
+        /// </summary>
         [Fact]
         public void SetRoomId()
         {
@@ -29,6 +32,9 @@ namespace HotelTesting.HotelTests
             roomA.ID = 2;
             Assert.Equal(2, roomA.ID);
         }
+        /// <summary>
+        /// testing we can get a room name
+        /// </summary>
         [Fact]
         public void GetRoomName()
         {
@@ -36,6 +42,9 @@ namespace HotelTesting.HotelTests
             roomA.Name = "standard";
             Assert.Equal("standard", roomA.Name);
         }
+        /// <summary>
+        /// testing we can change that name
+        /// </summary>
         [Fact]
         public void SetRoomName()
         {
@@ -44,6 +53,9 @@ namespace HotelTesting.HotelTests
             roomA.Name = "Big";
             Assert.Equal("Big", roomA.Name);
         }
+        /// <summary>
+        /// Testing we can get room amenities id 
+        /// </summary>
         [Fact]
         public void GetRoomAmenitiesID()
         {
@@ -51,6 +63,9 @@ namespace HotelTesting.HotelTests
             roomA.RoomAmentitiesID = 1;
             Assert.Equal(1, roomA.RoomAmentitiesID);
         }
+        /// <summary>
+        /// Testing we can chamnge the room amenities id
+        /// </summary>
         [Fact]
         public void SetRoomAmenitiesID()
         {
@@ -59,6 +74,9 @@ namespace HotelTesting.HotelTests
             roomA.RoomAmentitiesID = 2;
             Assert.Equal(2, roomA.RoomAmentitiesID);
         }
+        /// <summary>
+        /// testing we can create a room
+        /// </summary>
         [Fact]
         public async void CanCreateRoom()
         {
@@ -86,6 +104,9 @@ namespace HotelTesting.HotelTests
             }
 
         }
+        /// <summary>
+        /// Testing our update, to be able to change and then update the room
+        /// </summary>
         [Fact]
         public async void CanUpdateRoom()
         {
@@ -115,6 +136,9 @@ namespace HotelTesting.HotelTests
             }
 
         }
+        /// <summary>
+        /// showing we can destroy that room
+        /// </summary>
         [Fact]
         public async void CanDeleteRoom()
         {
@@ -144,7 +168,6 @@ namespace HotelTesting.HotelTests
             }
 
         }
-
     }
 }
     
