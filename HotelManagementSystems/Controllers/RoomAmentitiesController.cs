@@ -17,37 +17,18 @@ namespace HotelManagementSystems.Controllers
             _context = context;
         }
 
-        // GET: RoomAmentities
+        // GET: RoomAmentities`
         public async Task<IActionResult> Index()
         {
             var hotelManagementDbContext = _context.RoomAmentities.Include(r => r.Amentities).Include(r => r.Room);
             return View(await hotelManagementDbContext.ToListAsync());
         }
 
-        // GET: RoomAmentities/Details/5
-        public async Task<IActionResult> Details(int? amenityid, int? roomid)
-        {
-            if(amenityid == null || roomid == null)
-            {
-                return NotFound();
-            }
-            var roomAmentities = await _context.RoomAmentities
-                .Include(r => r.Amentities)
-                .Include(r => r.Room)
-                .FirstOrDefaultAsync(m => m.AmentitiesID == amenityid && m.RoomID == roomid);
-            if (roomAmentities == null)
-            {
-                return NotFound();
-            }
-
-            return View(roomAmentities);
-        }
-
         // GET: RoomAmentities/Create
         public IActionResult Create()
         {
-            ViewData["AmentitiesID"] = new SelectList(_context.Amentities, "ID", "ID");
-            ViewData["RoomID"] = new SelectList(_context.Room, "ID", "ID");
+          ViewData["AmentitiesID"] = new SelectList(_context.Amentities, "ID", "Name");
+          ViewData["RoomID"] = new SelectList(_context.Room, "ID", "Name");
             return View();
         }
 
@@ -64,76 +45,22 @@ namespace HotelManagementSystems.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AmentitiesID"] = new SelectList(_context.Amentities, "ID", "ID", roomAmentities.AmentitiesID);
-            ViewData["RoomID"] = new SelectList(_context.Room, "ID", "ID", roomAmentities.RoomID);
-            return View(roomAmentities);
-        }
-
-        // GET: RoomAmentities/Edit/5
-        public async Task<IActionResult> Edit(int amentitesID, int roomId)
-        {
-            var roomAmentities =  _context.RoomAmentities
-                .Include(c => c.Amentities)
-                .Include(c => c.Room)
-                .FirstOrDefault(s => s.AmentitiesID == amentitesID && s.Room.ID == roomId);
-          
-            if (roomAmentities == null)
-            {
-                return NotFound();
-            }
-            ViewData["AmentitiesID"] = new SelectList(_context.Amentities, "ID", "ID", roomAmentities.AmentitiesID);
-            ViewData["RoomID"] = new SelectList(_context.Room, "ID", "ID", roomAmentities.RoomID);
-            return View(roomAmentities);
-        }
-
-        // POST: RoomAmentities/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int amenityID, int roomID, [Bind("AmentitiesID,RoomID")] RoomAmentities roomAmentities)
-        {
-            if (amenityID != roomAmentities.AmentitiesID || roomID != roomAmentities.RoomID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(roomAmentities);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RoomAmentitiesExists(roomAmentities.AmentitiesID, roomAmentities.RoomID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AmentitiesID"] = new SelectList(_context.Amentities, "ID", "ID", roomAmentities.AmentitiesID);
-            ViewData["RoomID"] = new SelectList(_context.Room, "ID", "ID", roomAmentities.RoomID);
+            ViewData["AmentitiesID"] = new SelectList(_context.Amentities, "ID", "Name", roomAmentities.AmentitiesID);
+            ViewData["RoomID"] = new SelectList(_context.Room, "ID", "Name", roomAmentities.RoomID);
             return View(roomAmentities);
         }
 
         // GET: RoomAmentities/Delete/5
-        public async Task<IActionResult> Delete(int? amenityID, int? roomID)
+        public async Task<IActionResult> Delete(int? amentitiesID, int? roomID)
         {
-            if(amenityID == null || roomID == null)
+            if(amentitiesID == null || roomID == null)
             {
                 return NotFound();
             }
             var roomAmentities = await _context.RoomAmentities
                 .Include(r => r.Amentities)
                 .Include(r => r.Room)
-                .FirstOrDefaultAsync(m => m.AmentitiesID == amenityID && m.RoomID == roomID);
+                .FirstOrDefaultAsync(m => m.AmentitiesID == amentitiesID && m.RoomID == roomID);
             if(roomAmentities == null)
             {
                 return NotFound();
@@ -145,12 +72,10 @@ namespace HotelManagementSystems.Controllers
         // POST: RoomAmentities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int amenityid, int roomID)
+        public async Task<IActionResult> DeleteConfirmed(int amentitiesID, int roomID)
         {
             var roomAmentities = await _context.RoomAmentities
-                .Include(r => r.Amentities)
-                .Include(r => r.Room)
-                .FirstOrDefaultAsync(m => m.AmentitiesID == amenityid && m.RoomID == roomID);
+               .FirstOrDefaultAsync(m => m.AmentitiesID == amentitiesID && m.RoomID == roomID);
             _context.RoomAmentities.Remove(roomAmentities);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -158,7 +83,6 @@ namespace HotelManagementSystems.Controllers
 
         }
     
-
         private bool RoomAmentitiesExists(int amenityID, int roomID)
         {
             return _context.RoomAmentities.Any(e => e.AmentitiesID == amenityID && e.RoomID == roomID);

@@ -5,7 +5,8 @@
     Layout = "_Layout";
 }
 
-<h1>Welcome to the Hotel Page</h1>
+<h1>Welcome to the View of all Hotels!</h1>
+<h1>Total count of Hotels:@Html.ViewData.Model.Where(m => m.Name != null).Count()</h1>
 
 
 <p>

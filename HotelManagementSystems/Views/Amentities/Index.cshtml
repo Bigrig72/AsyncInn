@@ -4,7 +4,7 @@
     ViewData["Title"] = "Add Amenities!";
     Layout = "_Layout";
 }
-
+<h1>Total count of Amenities:@Html.ViewData.Model.Where(m => m.Name != null).Count()</h1>
 <h1>Add and Filter Amenities!</h1>
 
 <p>
