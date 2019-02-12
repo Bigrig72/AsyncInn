@@ -5,7 +5,9 @@
     Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<h1>Room Info</h1>
+<h1>Total count of Rooms:@Html.ViewData.Model.Where(m => m.Name != null).Count()</h1>
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,7 +15,7 @@
 <form asp-controller="rooms" asp-action="Index" method="get">
     <p>
         Room ID: <input type="text" name="searchString">
-        <input type="submit" value="Filter"/>
+        <input type="submit" value="Filter" />
     </p>
 </form>
 <table class="table">
@@ -32,23 +34,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomAmentitiesID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Roomlayout)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomAmentitiesID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Roomlayout)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -5,7 +5,11 @@
     Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<h1>Specific Room Amenities</h1>
+<h1>Total count of Room Amenities:@Html.ViewData.Model.Where(m => m.Amentities != null).Count()</h1>
+
+
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -23,20 +27,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amentities.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Room.ID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amentities.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Room.Name)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Delete", "Delete", new { item.AmentitiesID, item.RoomID })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+

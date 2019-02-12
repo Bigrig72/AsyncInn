@@ -11,12 +11,11 @@ namespace HotelManagementSystems.Models.Interfaces
 
         Task<Amentities> GetAmentities(int id);
 
-        IEnumerable<Amentities> GetAmentities();
+        Task<IEnumerable<Amentities>> GetAmentities(string SearchString);
 
-        void UpdateAmenity(Amentities amenity);
+        Task UpdateAmenity(Amentities amenity);
+        
 
-        void DeleteAmenity(Amentities amenity);
-
-        void DeleteAmenity(int id);
+        Task DeleteAmenity(int id);
     }
 }

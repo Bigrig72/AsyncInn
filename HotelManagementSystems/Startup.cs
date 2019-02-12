@@ -13,23 +13,24 @@ namespace HotelManagementSystems
     {
         public IConfiguration Configuration { get; }
 
-        public Startup() //IConfiguration configuration
+        public Startup(IConfiguration configuration) //IConfiguration configuration
         {
+            //Configuration = configuration;
             var builder = new ConfigurationBuilder().AddEnvironmentVariables();
             builder.AddUserSecrets<Startup>();
             Configuration = builder.Build();
-            //Configuration = configuration;
+            Configuration = configuration;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddDbContext<HotelManagementDbContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
-
             services.AddDbContext<HotelManagementDbContext>(options =>
-            options.UseSqlServer(Configuration["ConnectionStrings:ProductionConnection"]));
+             options.UseSqlServer(Configuration["ConnectionStrings:ProductionConnection"]));
+
+            //services.AddDbContext<HotelManagementDbContext>(options =>
+            //options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddScoped<IHotelManager, HotelManagementService>();
             services.AddScoped<IRoomsManager, RoomManagementService>();

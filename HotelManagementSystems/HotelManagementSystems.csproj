@@ -27,6 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\background-asyncInn.jpg" />
+    <None Include="wwwroot\black-slate-wall-stone-cladding-250x250.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="wwwroot\StyleSheet.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

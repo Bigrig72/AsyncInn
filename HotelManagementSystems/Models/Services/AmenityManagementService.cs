@@ -30,32 +30,38 @@ namespace HotelManagementSystems.Models.Services
 
         }
 
-        public IEnumerable<Amentities> GetAmentities()
+        public async Task<IEnumerable<Amentities>> GetAmentities()
         {
-              return _context.Amentities.ToList();
+            var amenities = from m in _context.Amentities
+                            select m;
+
+            return await amenities.ToListAsync();
         }
 
-        public void UpdateAmenity(Amentities amenity)
-        {
-            _context.Amentities.Update(amenity);
-            _context.SaveChanges();
-
-        }
-
-        public void DeleteAmenity(Amentities amenity)
-        {
-            _context.Amentities.Remove(amenity);
-            _context.SaveChanges();
-
-        }
-
-        public void DeleteAmenity(int id)
+        public async Task DeleteAmenity(int id)
         {
             Amentities amenity = _context.Amentities.FirstOrDefault(A => A.ID == id);
             _context.Amentities.Remove(amenity);
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
         }
 
-       
+        public async Task UpdateAmenity(Amentities amenity)
+        {
+            _context.Amentities.Update(amenity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Amentities>> GetAmentities(string SearchString)
+        {
+            var amenities = from s in _context.Amentities
+                            select s;
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                amenities = amenities.Where(a => a.Name.Contains(SearchString));
+            }
+
+            return await amenities.ToListAsync();
+        }
     }
 }

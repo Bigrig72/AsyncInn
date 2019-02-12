@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +10,9 @@ namespace HotelManagementSystems.Models
     {
         public int HotelID { get; set; }
         public int RoomNumber { get; set; }
-        public decimal RoomID { get; set; }
+        [Required]
+        public int RoomID { get; set; }
+        [Required]
         public decimal Rate { get; set; }
         public bool PetFriendly { get; set; }
 
