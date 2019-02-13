@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagementSystems.Migrations
 {
     [DbContext(typeof(HotelManagementDbContext))]
-    [Migration("20190211064502_newdb")]
+    [Migration("20190213172940_newdb")]
     partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

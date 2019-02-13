@@ -20,16 +20,9 @@ namespace HotelManagementSystems.Controllers
             _context = context;
         }
         // GET: Hotel
-        public IActionResult Index(string searchString)
+        public async Task<IActionResult> Index(string searchString)
         {
-            var hotel = _context.GetHotels();
-
-                        
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                hotel = hotel.Where(s => s.Name.Contains(searchString));
-            }
-            return View(hotel);
+            return View(await _context.GetHotels(searchString));
         }
         [HttpPost]
         public string Index(string searchString, bool notUsed)

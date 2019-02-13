@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HotelManagementSystems.Models;
+using HotelManagementSystems.Models.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HotelManagementSystems.Data;
-using HotelManagementSystems.Models;
-using HotelManagementSystems.Models.Interfaces;
 
 namespace HotelManagementSystems.Controllers
 {
@@ -23,6 +20,7 @@ namespace HotelManagementSystems.Controllers
         // GET: Rooms
         public async Task<IActionResult> Index(string searchString)
         {
+
             var room = _context.GetRooms();
 
             if (!String.IsNullOrEmpty(searchString))
@@ -61,13 +59,14 @@ namespace HotelManagementSystems.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,RoomAmentitiesID,Name,Roomlayout")] Room room)
+        public async Task<IActionResult> Create([Bind("ID,Name,Roomlayout")] Room room)
         {
             if (ModelState.IsValid)
             {
                 await _context.CreateRoom(room);
                 return RedirectToAction(nameof(Index));
-            }   return View(room);
+            }
+            return View(room);
         }
         // GET: Rooms/Edit/5
         public async Task<IActionResult> Edit(int id)

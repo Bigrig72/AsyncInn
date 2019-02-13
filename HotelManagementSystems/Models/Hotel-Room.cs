@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HotelManagementSystems.Models
 {
     public class Hotel_Room
     {
         public int HotelID { get; set; }
-        public int RoomNumber { get; set; }
+        public int RoomNumberID { get; set; }
         [Required]
         public int RoomID { get; set; }
         [Required]

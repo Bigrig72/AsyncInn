@@ -1,6 +1,7 @@
 ﻿using HotelManagementSystems.Data;
 using HotelManagementSystems.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace HotelManagementSystems.Models.Services
         public async Task CreateHotel(Hotel hotel)
         {
             _context.Hotels.Add(hotel);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public void DeleteHotel(Hotel hotel)
@@ -47,9 +48,30 @@ namespace HotelManagementSystems.Models.Services
             _context.SaveChanges();
         }
 
+        public async Task<IEnumerable<Hotel>> GetHotels(string searchString)
+        {
+            var hotel = from h in _context.Hotels
+                        select h;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                hotel = hotel.Where(s => s.Name.Contains(searchString));
+            }
+
+
+            foreach (Hotel item in hotel)
+            {
+                item.Room = await _context.HotelRooms.Where(r => r.HotelID == item.ID).ToListAsync();
+            }
+
+            return _context.Hotels.ToList();
+        }
+
         public IEnumerable<Hotel> GetHotels()
         {
-            return  _context.Hotels.ToList();
+            return _context.Hotels.ToList();
         }
+
+
     }
 }

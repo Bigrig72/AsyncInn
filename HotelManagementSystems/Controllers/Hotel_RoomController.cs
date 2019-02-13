@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HotelManagementSystems.Data;
+using HotelManagementSystems.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using HotelManagementSystems.Data;
-using HotelManagementSystems.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HotelManagementSystems.Controllers
 {
@@ -27,12 +25,16 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Hotel_Room/Details/5
-        public async Task<IActionResult> Details(decimal id)
+        public async Task<IActionResult> Details(int? roomNumberID, int? hotelID)
         {
-            
-            var hotel_Room = await _context.HotelRooms
+            if(roomNumberID == null || hotelID == null)
+            {
+                return NotFound();
+            }
+
+            var hotel_Room = await _context.HotelRooms.Include(m => m.Room)
                              .Include(h => h.Hotel)
-                         .FirstOrDefaultAsync(m => m.RoomID == id);
+                             .FirstOrDefaultAsync(m => m.RoomNumberID == roomNumberID && m.HotelID == hotelID);
             if (hotel_Room == null)
             {
                 return NotFound();
@@ -42,9 +44,19 @@ namespace HotelManagementSystems.Controllers
         }
 
         // GET: Hotel_Room/Create
-        public IActionResult Create()
-        {
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "ID");
+        public IActionResult Create(bool isDuplicate)
+            {
+            if (isDuplicate)
+            {
+                ViewData["errorMsg"] = "This Room already exists";
+            }
+            else
+            {
+                ViewData["errorMsg"] = "";
+            }
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "Name");
+            ViewData["RoomID"] = new SelectList(_context.Room, "ID", "Name");
+
             return View();
         }
 
@@ -53,27 +65,60 @@ namespace HotelManagementSystems.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HotelID,RoomNumber,RoomID,Rate,PetFriendly")] Hotel_Room hotel_Room)
+        public async Task<IActionResult> Create([Bind("HotelID,RoomNumberID,RoomID,Rate,PetFriendly")] Hotel_Room hotel_Room)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(hotel_Room);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool isDuplicate = false;
+                if(Hotel_RoomExists(hotel_Room.RoomNumberID, hotel_Room.HotelID))
+                {
+                    isDuplicate = true;
+                    return RedirectToAction("Create", new { isDuplicate });
+                }
+                else
+                {
+                         ViewData["errorMsg"] = "";
+                        _context.Add(hotel_Room);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                }
+                
             }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "ID", hotel_Room.HotelID);
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "Name", hotel_Room.HotelID);
+            ViewData["RoomID"] = new SelectList(_context.Hotels, "ID", "Name", hotel_Room.RoomID);
+
             return View(hotel_Room);
         }
 
         // GET: Hotel_Room/Edit/5
-        public async Task<IActionResult> Edit(decimal id)
+        public async Task<IActionResult> Edit(int? roomNumberID, int? hotelID, bool isDuplicate)
         {
-            var hotel_Room = await _context.HotelRooms.FindAsync(id);
-            if (hotel_Room == null)
+            if (isDuplicate)
+            {
+                ViewData["errorMsg"] = "Room already exists";
+            }
+            else
+            {
+                ViewData["errorMsg"] = "";
+            }
+            if(roomNumberID == null || hotelID == null)
             {
                 return NotFound();
             }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "ID", hotel_Room.HotelID);
+
+            var hotel_Room = await _context.HotelRooms.FirstOrDefaultAsync(m => m.RoomNumberID == roomNumberID && m.HotelID == hotelID);
+
+            if(hotel_Room == null)
+            {
+                return NotFound();
+            }
+            //if (hotel_Room == null)
+            //{
+            //   
+            //}
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "Name", hotel_Room.HotelID);
+            ViewData["RoomID"] = new SelectList(_context.Room, "ID", "Name", hotel_Room.RoomID);
+
             return View(hotel_Room);
         }
 
@@ -82,15 +127,12 @@ namespace HotelManagementSystems.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(decimal id, [Bind("HotelID,RoomNumber,RoomID,Rate,PetFriendly")] Hotel_Room hotel_Room)
-        {
-            if (id != hotel_Room.RoomID)
-            {
-                return NotFound();
-            }
+        public async Task<IActionResult> Edit(int roomNumberID, int hotelID, [Bind("HotelID,RoomNumberID,RoomID,Rate,PetFriendly")] Hotel_Room hotel_Room)
+        {         
 
             if (ModelState.IsValid)
             {
+                bool isDuplicate = false;
                 try
                 {
                     _context.Update(hotel_Room);
@@ -98,9 +140,10 @@ namespace HotelManagementSystems.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Hotel_RoomExists(hotel_Room.RoomID))
+                    if (Hotel_RoomExists(hotel_Room.RoomNumberID, hotel_Room.HotelID))
                     {
-                        return NotFound();
+                        isDuplicate = true;
+                        return RedirectToAction("Edit", new { isDuplicate });
                     }
                     else
                     {
@@ -109,16 +152,23 @@ namespace HotelManagementSystems.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "ID", hotel_Room.HotelID);
+            ViewData["HotelID"] = new SelectList(_context.Hotels, "ID", "Name", hotel_Room.HotelID);
+            ViewData["RoomID"] = new SelectList(_context.Hotels, "ID", "Name", hotel_Room.RoomID);
+
             return View(hotel_Room);
         }
 
         // GET: Hotel_Room/Delete/5
-        public async Task<IActionResult> Delete(decimal id)
+        public async Task<IActionResult> Delete(int? roomNumberID, int? hotelID)
         {
-            var hotel_Room = await _context.HotelRooms
+            if(roomNumberID == null || hotelID == null)
+            {
+                return NotFound();
+            }
+
+            var hotel_Room = await _context.HotelRooms.Include(m => m.Room)
                 .Include(h => h.Hotel)
-                .FirstOrDefaultAsync(m => m.RoomID == id);
+                .FirstOrDefaultAsync(m => m.RoomNumberID == roomNumberID && m.HotelID == hotelID);
             if (hotel_Room == null)
             {
                 return NotFound();
@@ -130,17 +180,18 @@ namespace HotelManagementSystems.Controllers
         // POST: Hotel_Room/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(decimal id)
+        public async Task<IActionResult> DeleteConfirmed(int roomNumberID, int hotelID)
         {
-            var hotel_Room = await _context.HotelRooms.FindAsync(id);
+            var hotel_Room = await _context.HotelRooms.
+                FirstOrDefaultAsync(m => m.RoomNumberID == roomNumberID && m.HotelID == hotelID);
             _context.HotelRooms.Remove(hotel_Room);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool Hotel_RoomExists(decimal id)
+        private bool Hotel_RoomExists(int roomNumberID, int hotelID)
         {
-            return _context.HotelRooms.Any(e => e.RoomID == id);
+            return _context.HotelRooms.Any(e => e.HotelID == hotelID && e.RoomNumberID == roomNumberID);
         }
     }
 }

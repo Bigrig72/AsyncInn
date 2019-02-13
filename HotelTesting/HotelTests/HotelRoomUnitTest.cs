@@ -15,16 +15,16 @@ namespace HotelTesting.HotelTests
         public void GetHotelRoomNumber()
         {
             Hotel_Room room = new Hotel_Room();
-            room.RoomNumber = 120;
-            Assert.Equal(120, room.RoomNumber);
+            room.RoomNumberID = 120;
+            Assert.Equal(120, room.RoomNumberID);
         }
         [Fact]
         public void SetHotelRoomNumber()
         {
             Hotel_Room room = new Hotel_Room();
-            room.RoomNumber = 120;
-            room.RoomNumber = 300;
-            Assert.Equal(300, room.RoomNumber);
+            room.RoomNumberID = 120;
+            room.RoomNumberID = 300;
+            Assert.Equal(300, room.RoomNumberID);
         }
         [Fact]
         public void GetHotelRoomID()
