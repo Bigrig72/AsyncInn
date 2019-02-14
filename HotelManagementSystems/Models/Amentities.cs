@@ -14,6 +14,6 @@ namespace HotelManagementSystems.Models
 
         // Navigation props
 
-        public ICollection<RoomAmentities> RoomAmentities { get; set; }
+        public ICollection<RoomAmentities> amenitiesCollection { get; set; }
     }
 }

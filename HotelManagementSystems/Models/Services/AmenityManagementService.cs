@@ -61,6 +61,7 @@ namespace HotelManagementSystems.Models.Services
                 amenities = amenities.Where(a => a.Name.Contains(SearchString));
             }
 
+
             return await amenities.ToListAsync();
         }
     }

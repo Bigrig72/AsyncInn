@@ -23,10 +23,10 @@ namespace HotelManagementSystems.Controllers
 
             var room = _context.GetRooms();
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                room = room.Where(s => s.RoomAmentitiesID.Equals(Convert.ToInt32(searchString)));
-            }
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    room = room.Where(s => s.RoomAmentitiesID.Equals(Convert.ToInt32(searchString)));
+            //}
 
             return View(room);
         }

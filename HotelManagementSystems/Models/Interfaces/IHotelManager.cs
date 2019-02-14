@@ -14,6 +14,7 @@ namespace HotelManagementSystems.Models.Interfaces
         Task<Hotel> GetHotel(int id);
 
         Task<IEnumerable<Hotel>> GetHotels(string searchString);
+
         IEnumerable<Hotel> GetHotels();
 
         // update a hotel

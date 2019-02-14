@@ -3,14 +3,16 @@ using HotelManagementSystems.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelManagementSystems.Migrations
 {
     [DbContext(typeof(HotelManagementDbContext))]
-    partial class HotelManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190214021624_newdb5")]
+    partial class newdb5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

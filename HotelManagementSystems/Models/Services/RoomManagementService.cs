@@ -33,6 +33,12 @@ namespace HotelManagementSystems.Models.Services
 
         public IEnumerable<Room> GetRooms()
         {
+            var rooms = from h in _context.Room
+                        select h;
+            foreach (Room item in rooms)
+            {
+                item.RoomAmentities = _context.RoomAmentities.Where(m => m.RoomID == item.ID).ToList();
+            }
             return _context.Room.ToList();
         }
 
